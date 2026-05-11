@@ -93,12 +93,18 @@
         }
 
         select {
-            width: 110px;
             padding: 10px 12px;
             border: 1px solid var(--border);
             border-radius: 10px;
             background: white;
             color: var(--text);
+            min-width: 140px;
+        }
+
+        .wide-select {
+            min-width: 260px;
+            max-width: 100%;
+            width: auto;
         }
 
         .actions {
@@ -126,6 +132,54 @@
             margin-top: 14px;
             font-size: 14px;
             color: var(--accent);
+        }
+
+        .accounts {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .account-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #fbfdff;
+        }
+
+        .account-index {
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 56px;
+        }
+
+        .account-details {
+            flex: 1;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .account-name {
+            display: block;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .account-email {
+            display: block;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .empty-state {
+            padding: 12px 14px;
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            color: var(--muted);
+            font-size: 14px;
         }
 
         .eyebrow {
@@ -167,8 +221,8 @@
                 </label>
 
                 <div class="inline-field">
-                    <label for="gmailAccountIndex">Account number</label>
-                    <select id="gmailAccountIndex" name="gmailAccountIndex">
+                    <label for="gmailAccountIndex">Account Selector</label>
+                    <select id="gmailAccountIndex" name="gmailAccountIndex" class="wide-select">
                         <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -184,6 +238,12 @@
             </div>
             <div id="status" class="status"></div>
         </form>
+
+        <div class="section">
+            <div class="eyebrow">Discovered accounts</div>
+            <p id="accountsHelp">Open Gmail or the Google account chooser in another tab and this list will fill in automatically.</p>
+            <div id="accountsList" class="accounts"></div>
+        </div>
     </main>
 
     <script src="options.js"></script>

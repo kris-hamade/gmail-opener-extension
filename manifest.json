@@ -7,6 +7,10 @@
         "activeTab",
         "storage"
     ],
+    "host_permissions": [
+        "https://accounts.google.com/*",
+        "https://mail.google.com/*"
+    ],
     "action": {
         "default_icon": "icon.png"
     },
@@ -14,6 +18,27 @@
     "background": {
         "service_worker": "background.js"
     },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "popup.html",
+                "popup.js"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://accounts.google.com/*",
+                "https://mail.google.com/*"
+            ],
+            "js": ["content.js"],
+            "run_at": "document_idle"
+        }
+    ],
     "icons": {
         "48": "icon.png"
     }
