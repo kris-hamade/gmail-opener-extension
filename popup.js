@@ -91,9 +91,53 @@ async function loadPopup() {
 }
 
 refreshButton.addEventListener("click", async () => {
-    const settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
-    renderAccounts(settings.accountMappings || []);
-    setStatus("Refreshed.");
+    // Open the account chooser in a background tab so the popup can stay open
+    let chooserTabId = null;
+    try {
+        const tab = await chrome.tabs.create({ url: "https://accounts.google.com/AccountChooser?service=mail", active: false });
+        chooserTabId = tab?.id;
+    } catch (e) {
+        // fallback: if tabs API isn't available, just refresh from storage
+        const settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
+        renderAccounts(settings.accountMappings || []);
+        setStatus("Refreshed.");
+        return;
+    }
+
+    setStatus("Waiting for account discovery...");
+
+    const onStorageChange = (changes, areaName) => {
+        if (areaName !== 'sync' || !changes.accountMappings) {
+            return;
+        }
+
+        const newMappings = changes.accountMappings.newValue || [];
+        renderAccounts(newMappings);
+        setStatus("Refreshed.");
+
+        // cleanup
+        chrome.storage.onChanged.removeListener(onStorageChange);
+        if (chooserTabId) {
+            try {
+                chrome.tabs.remove(chooserTabId);
+            } catch (e) {
+                // ignore if tab already closed or permission denied
+            }
+        }
+    };
+
+    chrome.storage.onChanged.addListener(onStorageChange);
+
+    // Safety timeout: stop waiting after 10s and refresh from storage
+    setTimeout(async () => {
+        chrome.storage.onChanged.removeListener(onStorageChange);
+        const settings = await chrome.storage.sync.get(DEFAULT_SETTINGS);
+        renderAccounts(settings.accountMappings || []);
+        setStatus("Refreshed.");
+        if (chooserTabId) {
+            try { chrome.tabs.remove(chooserTabId); } catch (e) {}
+        }
+    }, 10000);
 });
 
 openChooserButton.addEventListener("click", () => {
