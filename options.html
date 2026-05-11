@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail Opener Options</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f6f8fc;
+            --panel: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --border: #dbe1ea;
+            --accent: #2563eb;
+            --accent-soft: #dbeafe;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #eef3ff 0%, var(--bg) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: min(100%, 560px);
+            background: var(--panel);
+            border: 1px solid rgba(219, 225, 234, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(37, 99, 235, 0.08);
+            padding: 28px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        p {
+            margin: 0 0 20px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .option {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .option input {
+            margin-top: 3px;
+        }
+
+        .option strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .option span {
+            display: block;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .inline-field {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-left: 28px;
+            margin: 10px 0 0;
+        }
+
+        select {
+            width: 110px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            color: var(--text);
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .status {
+            min-height: 20px;
+            margin-top: 14px;
+            font-size: 14px;
+            color: var(--accent);
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 6px 10px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <div id="eyebrow" class="eyebrow">First-time setup</div>
+        <h1 id="title">Gmail Opener</h1>
+        <p id="intro">Choose whether the extension should ask you which Gmail account to use or open a default account directly when you click the icon.</p>
+
+        <form id="settingsForm">
+            <div class="section">
+                <label class="option">
+                    <input type="radio" name="openMode" value="chooser" checked>
+                    <div>
+                        <strong>Selector mode</strong>
+                        <span>Show Google's account chooser so you can pick a signed-in Gmail account.</span>
+                    </div>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="openMode" value="default">
+                    <div>
+                        <strong>Default mode</strong>
+                        <span>Skip the chooser and open Gmail for a specific account immediately.</span>
+                    </div>
+                </label>
+
+                <div class="inline-field">
+                    <label for="gmailAccountIndex">Account number</label>
+                    <select id="gmailAccountIndex" name="gmailAccountIndex">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="primary">Save settings</button>
+            </div>
+            <div id="status" class="status"></div>
+        </form>
+    </main>
+
+    <script src="options.js"></script>
+</body>
+</html>
