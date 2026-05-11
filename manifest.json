@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Gmail Opener",
     "description": "A simple Chrome extension to open Gmail directly.",
-    "version": "1.0.1",
+    "version": "2.0.0",
     "permissions": [
         "activeTab",
         "storage"
